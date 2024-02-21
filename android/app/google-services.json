@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "343855067002",
+    "firebase_url": "https://studions-25892-default-rtdb.firebaseio.com",
+    "project_id": "studions-25892",
+    "storage_bucket": "studions-25892.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343855067002:android:41d7c6fa43d10f8d6630c3",
+        "android_client_info": {
+          "package_name": "com.example.studions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTjs8ZcJXocKey9u4dpkVBLNAa1EdTKEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
