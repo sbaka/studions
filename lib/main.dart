@@ -27,7 +27,28 @@ class MyApp extends StatelessWidget {
       title: 'Studions',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xff134c73),
+          secondary: const Color(0xff1b242c),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            foregroundColor: Colors.white,
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(),
+        ),
+        textTheme: const TextTheme(
+          labelLarge: TextStyle(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
         useMaterial3: true,
       ),
       home: isUserLoggedIn ? const MyHomePage(title: 'Studions') : const LoginPage(),

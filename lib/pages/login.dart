@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,9 +14,9 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController _emailController;
   late final TextEditingController _pwdController;
   late final GlobalKey<FormState> _formKey;
+  bool isTextObscure = true;
   final String emailRegex =
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
-  String passwordRegex = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()])(?=.{8,})";
   @override
   void initState() {
     super.initState();
@@ -36,8 +38,14 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Column(
         children: [
-          const Text("Welcome !"),
-          const Text("Create a free account or login to get started with Studions"),
+          Text(
+            "Bienvenu !",
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+          Text(
+            "Connectez-vous pour profiter de l'application",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
           Form(
             key: _formKey,
             child: Column(
@@ -49,16 +57,19 @@ class _LoginPageState extends State<LoginPage> {
                       width: size.width - 32,
                       height: 56,
                       child: TextFormField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          label: const Text("Email"),
+                          label: const Text("E-mail"),
                         ),
                         validator: (text) {
                           final RegExp emailReg = RegExp(emailRegex);
                           if (!emailReg.hasMatch(text as String)) {
-                            return "Enter a valid email";
+                            return "Entrez un e-mail valide";
                           }
                           return null;
                         },
@@ -74,20 +85,35 @@ class _LoginPageState extends State<LoginPage> {
                       width: size.width - 32,
                       height: 56,
                       child: TextFormField(
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          setState(() {
+                            isTextObscure = true;
+                          });
+                        },
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
+                          suffix: IconButton(
+                            icon: Icon(
+                              !isTextObscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isTextObscure = !isTextObscure;
+                              });
+                            },
                           ),
-                          label: const Text("Password"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          label: const Text("Mot de passe"),
                         ),
                         validator: (text) {
-                          final RegExp pwdReg = RegExp(passwordRegex);
-                          if (!pwdReg.hasMatch(text as String)) {
-                            return "Your password is weak";
+                          if (text!.length < 8) {
+                            return "Format de mot de passe incorrecte";
                           }
                           return null;
                         },
-                        obscureText: true,
+                        obscureText: isTextObscure,
                         controller: _pwdController,
                       ),
                     )
@@ -99,31 +125,114 @@ class _LoginPageState extends State<LoginPage> {
                     TextButton(
                       onPressed: () {},
                       child: const Text(
-                        "Forgot password?",
+                        "Mot de passe oublié ?",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      print(123);
-                    }
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "S'identifier",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
+                const Gap(32),
+                SizedBox(
+                  width: size.width - 32,
+                  height: 64,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        if (kDebugMode) {
+                          print(123);
+                        }
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "S'identifier",
                       ),
                     ),
                   ),
-                )
+                ),
+                const Gap(32),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Divider(),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Center(
+                        child: Text(
+                          "Ou continuez avec",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100,
+                      child: Divider(),
+                    ),
+                  ],
+                ),
+                const Gap(32),
+                SizedBox(
+                  width: size.width - 32,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFCFCFC),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      side: const BorderSide(color: Colors.grey, width: 0.7),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "S'identifier avec google",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width - 32,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFCFCFC),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      side: const BorderSide(color: Colors.grey, width: 0.7),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "S'identifier avec Facebook",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
